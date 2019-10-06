@@ -1,1 +1,1 @@
-alert('js connected')
+console.log('App started.')

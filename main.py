@@ -9,20 +9,9 @@ from flask import Flask, request, url_for, render_template, flash, send_file
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.secret_key = 'some secret key'
 
-# Skipped - upload folder
 ALLOWED_EXTENTIONS = set(['py', 'c', 'cpp', 'js'])
-
-# get function
-# def get(file):
-#     try:
-#         with open(file, "rb") as f:
-#             return f.read().decode("utf-8", "ignore")
-#     except Exception as e:
-#         if type(e) is FileNotFoundError:
-#             raise RuntimeError("Could not find file")
-
-
 
 # Rendering
 def render(file, size, browser=False, color=True, fontSize="10pt", margin="0.5in", relative=True, title=None):
@@ -56,7 +45,7 @@ def render(file, size, browser=False, color=True, fontSize="10pt", margin="0.5in
             CSS(string=".lineno:after { content: '  '; }")]
     
     
-    HTML(string=string).write_pdf('./tmp/output.pdf', stylesheets=stylesheets)
+    HTML(string=string).write_pdf('/tmp/output.pdf', stylesheets=stylesheets)
     
 
 def allowed_file(filename):
@@ -81,9 +70,8 @@ def convert():
         if file and allowed_file(file.filename):
             # Do something with file
             render(file, 'A4 landscape')
-            return send_file(filename_or_fp='./tmp/output.pdf')
+            return send_file(filename_or_fp='/tmp/output.pdf')
             
-
 
 if __name__ == '__main__':
     app.run()
